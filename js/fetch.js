@@ -6,11 +6,15 @@ const fetched = async() =>{
     gadgets(ai);
 }
 
+let aiItems = [];
 const gadgets = ai =>{
     //console.log(ai);
+    aiItems = ai;
+    const cardElement = document.getElementById('card-container');
+    cardElement.innerHTML = '';
+
     ai.forEach(item => {
         //console.log(item);
-        const cardElement = document.getElementById('card-container');
         const cardItem = document.createElement('div');
         cardItem.classList = `card card-compact bg-grey-100 w-96 p-4 shadow-xl rounded-lg`;
         cardItem.innerHTML = `
@@ -20,20 +24,19 @@ const gadgets = ai =>{
                         alt="Shoes" />
                     </figure>
                     <div class="card-body">
-                        <h2 class="card-title">Features</h2>
-                        <ul class="mb-3">
+                        <h2 class="card-title font-bold">Features</h2>
+                        <ol class="list-decimal pl-3 mb-3 space-y-1">
                             <li>${item.features[0]}</li>
                             <li>${item.features[1]}</li>
                             <li>${item.features[2]}</li>
-                        </ul>
+                        </ol>
                         <hr>
-                        <p>${item.name}</p>
+                        <p class='font-bold text-lg'>${item.name}</p>
                         <p>${item.published_in}</p>
                         <button onClick = "handleShowDetail('${item.id}')" class="btn btn-error rounded-lg">Show More Details <button/>
                     </div>`     
-              cardElement.appendChild(cardItem);   
-    });
-            
+              cardElement.appendChild(cardItem);
+    });          
     }
 
 const handleShowDetail = async (id) => {
@@ -43,19 +46,19 @@ const handleShowDetail = async (id) => {
     const data = await res.json();
     //console.log(data);
     const phone = data.data;
-    console.log(phone);
+    //console.log(phone);
     showPhoneDetails(phone);
 }   
 
 const showPhoneDetails = (phone) =>{
-    console.log(phone);
+    //console.log(phone);
 
     const showDetailContainer = document.getElementById('show_detail_container');
     showDetailContainer.innerHTML = `
     <div class= "flex items-center justify-center gap-10 p-5">
         <div class="space-y-6 rounded-lg shadow-xl p-8">
             <h3 class="text-2xl font-bold">${phone.description}</h3>
-            <div class="flex items-center justify-around gap-10">
+            <div class="flex items-center justify-around gap-10 font-semibold">
                 <div><span>${phone.pricing[0].price}</span><br><span>${phone.pricing[0].plan}</span></div>
                 <div><span>${phone.pricing[1].price}</span><br><span>${phone.pricing[1].plan}</span></div>
                 <div><span>${phone.pricing[2].price}</span><br><span>${phone.pricing[2].plan}</span></div>
@@ -64,7 +67,7 @@ const showPhoneDetails = (phone) =>{
             <div class= "flex items-center justify-between gap-4">
                 <div class='space-y-2'>
                  <h3 class="text-2xl font-bold">Features</h3>
-                 <ul>
+                 <ul class='list-disc pl-3'>
                     <li>${phone.features[1].feature_name}</li>
                     <li>${phone.features[2].feature_name}</li>
                     <li>${phone.features[3].feature_name}</li>
@@ -72,7 +75,7 @@ const showPhoneDetails = (phone) =>{
                 </div>
                 <div class='space-y-2'>
                     <h3 class="text-2xl font-bold">Integrations</h3>
-                    <ul>
+                    <ul class='list-disc pl-3'>
                         <li>${phone.integrations[0]}</li>
                         <li>${phone.integrations[1]}</li>
                         <li>${phone.integrations[2]}</li>
@@ -94,6 +97,17 @@ const showPhoneDetails = (phone) =>{
     `;
     showDetails_modal.showModal();
 }
+
+    const sortByDateElement = document.getElementById('sort-date-btn');
+    sortByDateElement.addEventListener('click', () => {
+    const sortedItems = aiItems.sort((a, b) => {
+        const dateA = new Date(a.published_in.split("-").reverse().join("-"));
+        const dateB = new Date(b.published_in.split("-").reverse().join("-"));
+        return dateA - dateB; // Ascending order
+    });
+    gadgets(sortedItems); // Re-render cards in sorted order
+});
+
 
 
 fetched();

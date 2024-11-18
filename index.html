@@ -10,15 +10,16 @@
 </head>
 
 <body class="container mx-auto">
-    <header class="mt-4">
-        <div class="flex flex-col items-center justify-center gap-5">
-            <h1 class="text-3xl text-center">AI Universe Hub</h1>
-            <button class="btn btn-error rounded-lg text-[#FFFFFF]">Sort By Date</button>
+    <header class="mt-10">
+        <div class="flex flex-col items-center justify-center gap-8">
+            <h1 class="text-3xl text-center font-bold">AI Universe Hub</h1>
+            <button id="sort-date-btn" class="btn btn-error rounded-lg text-[#FFFFFF]">Sort By Date</button>
+
         </div>
     </header>
     <main>
         <section class="mt-10">
-            <div id="card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+            <div id="card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 p-4">
 
             </div>
             <div id="show-more-container" class="flex items-center justify-center pt-3">
@@ -33,7 +34,7 @@
             </div>
             <div class="modal-action">
             <form method="dialog">
-                <button class="btn btn-lg btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <button class="btn btn-md btn-circle btn-ghost absolute right-2 top-2">✕</button>
             </form>
             </div>
         </div>
